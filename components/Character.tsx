@@ -1,13 +1,21 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from '@react-navigation/native'
 
 const Character = (props: {
     name: string;
     description: string;
     image_src: string;
 }) => {
+  const navigation = useNavigation()
+
+  function pressHandler() {
+    navigation.navigate("CharacterDetail" as never, {
+      name: props.name
+    } as never)
+  }
   return (
-    <View style={styles.rootContainer}>
+    <Pressable style={styles.rootContainer} onPress={pressHandler}>
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{props.name}</Text>
 
@@ -24,7 +32,7 @@ const Character = (props: {
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

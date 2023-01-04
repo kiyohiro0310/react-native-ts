@@ -1,47 +1,34 @@
-import { StatusBar } from "expo-status-bar";
 import { useRef } from "react";
-import {
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
-import Button from "./components/Button";
-import Characters from "./components/Characters";
-import Title from "./components/Title";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./components/Home";
+import CharacterDetail from "./components/CharacterDetail";
 export default function App() {
-  const ref = useRef<any>(null);
-
-  function buttonHandler() {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }
+  const Stack = createStackNavigator();
 
   return (
-    <View style={styles.rootContainer}>
-      <StatusBar style="auto" />
-      <ImageBackground
-        source={require("./assets/images/background_genshin.jpeg")}
-        resizeMode="cover"
-        style={styles.rootContainer}
-        imageStyle={styles.imageBackground}
-      >
-        <ScrollView>
-            <Title />
-            <Button>Scroll Down</Button>
-            <Characters />
-        </ScrollView>
-      </ImageBackground>
-    </View>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="home"
+            component={Home}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="CharacterDetail"
+            component={CharacterDetail}
+            options={({ route, navigation }) => {
+              const charName = (route.params! as { name: string }).name;
+              return {
+                title: charName,
+              };
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-  },
-  imageBackground: {
-    opacity: 0.85,
-  },
-});
