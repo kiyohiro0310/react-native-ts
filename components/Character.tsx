@@ -14,6 +14,7 @@ const Character = (props: {
       name: props.name
     } as never)
   }
+
   return (
     <Pressable style={styles.rootContainer} onPress={pressHandler}>
       <View style={styles.infoContainer}>
